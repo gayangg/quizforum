@@ -1,0 +1,25 @@
+<% layout("./layouts/layout.eta") %>
+
+<div class="jumbotron">
+    <h2>Answer verification</h2>
+    <% if (it.errors) { %>
+        <ul>
+            <% it.errors.forEach((error) => { %>
+                <% if(it.verification === true) { %>
+                    <div class="alert alert-success" role="alert">
+                        <strong>Done!</strong> <%= error %>
+                    </div>
+                <% }else {%>
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Oh snap!</strong> <%= error %>
+                    </div>
+                    <p>&nbsp;</p>
+                    <p>The correct option was <mark class="">"<%= it.correctAnswer %>"</mark></p>
+                <% } %>
+
+            <% }); %>
+        </ul>
+    <% } %>
+<%= it.correctAnswer %> <%= it.correctAnswer %>
+    <a href="/quiz/<%= it.nextQuestionLink %>">Next Question</a>
+</div>

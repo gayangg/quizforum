@@ -1,0 +1,83 @@
+<% layout('./layouts/layout.eta', { title: 'Topic Details' }) %>
+
+
+<div class="jumbotron">
+  <h2>Create answers</h2>
+
+  <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= it.qId %>/options">
+     <div class="row">
+              <div class="col-md-9 mb-3">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="is_correct" name="is_correct" value="<% it.is_correct%>" >
+                  <label class="custom-control-label" for="is_correct">
+                    <textarea type="text" id="option_text" name="option_text" required class="form-control"></textarea>
+                  </label>
+                  <% if (it.errors) { %>
+                    <ul>
+                      <% it.errors.forEach((error) => { %>
+                        <div class="alert alert-danger" role="alert">
+                          <strong>Oh snap!</strong> <%= error %>
+                        </div>
+                      <% }); %>
+                    </ul>
+                  <% } %>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <button type="submit" class="btn btn-primary btn-mm">Add</button>
+              </div>
+        </div>
+  </form>
+</div>
+
+<div class="jumbotron">
+  <h2>Topic : <%= it.topic.name %></h2>
+  <h5><%= it.question.question_text %></h5>
+
+  <% if (it.warnings) { %>
+    <ul>
+      <% it.warnings.forEach((warning) => { %>
+        <div class="alert alert-warning" role="alert">
+          <strong>Warning!</strong> <%= warning %>
+        </div>
+      <% }); %>
+    </ul>
+  <% } %>
+
+  <div>
+    <% if (it.options && it.options.length > 0) { %>
+      <ol class="list-group" >
+        <% it.options.forEach(item => { %>
+          <li class="list-group-item qa-display">
+          
+            <label class=""><%= item.is_correct %></label>
+           
+            <label class=""><%= item.option_text %></label>
+            <span class="badge">
+            
+              <form method="POST" action="/topics/<%= it.id %>/questions/<%= it.qId %>/options/<%= item.id %>/delete/">
+                  <div class="btn-group">
+                      <button type="submit" class="btn btn-sm btn-outline-secondary" title="Delete">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
+      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+    </svg>
+                      </button>       
+                  </div>
+              </form>
+            </span>
+          </li>
+        <% }) %>
+      </ol>
+
+    <% } %>
+  </div>
+</div>
+
+
+
+
+
+
+
+

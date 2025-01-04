@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= it.title || 'Quiz App' %></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="../../css/custom.css" type="text/css"> 
+ <style>
+ body{
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #f8f9fa;
+}
+a {
+  outline-color: transparent;
+}
+a:link{color:#a6d70;}
+header{margin-bottom:15px;}
+ul,li,ol{padding:0;}
+ .bg-light {
+    background-color: #f8f9fa !important;
+}
+
+
+    .list-group-item>.badge {
+      float: right;
+    }
+    .navbar-nav>li {
+        float: left;
+    }
+  .nav>li {
+    position: relative;
+    display: block;
+}
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+.card-deck .card {
+    min-width: 220px;
+}
+
+.alert {
+    margin-bottom: 0;
+    margin-top: 1rem;
+}
+
+media (min-width: 576px) {
+    .card-deck .card {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex
+;
+        -webkit-box-flex: 1;
+        -ms-flex: 1 0 0%;
+        flex: 1 0 0%;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        margin-right: 15px;
+        margin-bottom: 0;
+        margin-left: 15px;
+    }
+}
+
+.mb-3, .my-3 {
+    margin-bottom: 0 !important;
+}
+.form-signin{ padding:10px;}
+  .qa-display{margin-bottom: 10px; background-color:#fbfbfb;}
+  
+  .topics{font-size: 1.2em; line-height: 1.5; color::#a6d70;
+  display: inline-block;
+  vertical-align: middle;}
+  .jumbotron {
+        padding: 2rem 2rem;
+    }
+    .card{padding:2rem 2rem;}
+    .card-body{padding:0;}
+    .custom-control-label{width:100%}
+    .btn-xs {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}.btn-group-sm>.btn, .btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+.language-text{background: #d5d3d2;}
+  </style>
+</head>
+<body>
+  <header>
+
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      
+      <h5 class="my-0 mr-md-auto font-weight-normal"><a class="p-2 text-dark" href="/">Question Forum</a></h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="/topics">Topics</a>
+        <a class="p-2 text-dark" href="/quiz">Quiz</a>
+        <a class="p-2 text-dark" href="/api/questions/random">Api</a>
+        <a class="p-2 text-dark" href="/api/questions/answer">Api</a>
+      </nav>
+      <% if (it.user) { %>
+        <p><%= it.user.email %>
+            <a class="p-2 text-dark" href="/auth/logout">Logout</a>
+          <% } else { %>
+            <a class="p-2 text-dark" href="/auth/register">Register</a>
+            <a class="btn btn-outline-primary" href="/auth/login">Login</a>
+      <% } %>
+      
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <%~ it.body %>
+    </div>
+  </main>
+  <footer>
+    <p></p>
+  </footer>
+</body>
+</html>

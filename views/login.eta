@@ -1,0 +1,25 @@
+<% layout('./layouts/layout.eta', { title: 'Login' }) %>
+<div class="jumbotron">
+<div class="class="card-deck mb-3 text-center">
+    <form class="form-signin" method="POST" action="/auth/login">
+      <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" value="<%= it.email || '' %>" required class="form-control" >
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required class="form-control">
+
+      <div>&nbsp;</div>
+      <button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+
+      <div>&nbsp;</div>
+      <% if (it.errors) { %>
+        <ul class="">
+          <% it.errors.forEach((error) => { %>
+            <li class="list-group-item list-group-item-danger"><%= error %></li>
+          <% }); %>
+        </ul>
+      <% } %>
+    </form>
+</div>

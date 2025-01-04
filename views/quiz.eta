@@ -13,6 +13,9 @@
       <% }) %>
     </ul>
   <% } else { %>
-    <p>None available.</p>
+        <div class="alert alert-warning" role="alert">
+          <strong>Sorry!</strong> No question have been added yet.
+        </div>
   <% } %>
+  
 </div>

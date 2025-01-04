@@ -1,0 +1,15 @@
+<% layout('./layouts/layout.eta') %>
+
+<div class="jumbotron">
+<h1>Quiz Master</h1>
+<br>
+<p class="lead">
+This project is a web application built using Deno, a modern runtime for JavaScript, 
+along with the Oak web framework for handling routing and middleware. </p>
+<p class="lead">
+The frontend leverages Bootstrap for responsive and visually appealing design, while JavaScript is used for dynamic client-side functionality. 
+The application showcases efficient and secure server-side capabilities, incorporating features like user authentication, form validation, database interactions, and more. </p>
+<p class="lead">It is designed to provide a seamless user experience while adhering to modern web development practices.
+</p>
+</p>
+</div>

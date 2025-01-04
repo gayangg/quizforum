@@ -1,64 +1,65 @@
 <% layout('./layouts/layout.eta', { title: 'Topic Details' }) %>
 
 
-<% if (it.topic && it.topic.length > 0) { %>
-  <% it.topic.forEach(item => { %>
-
-    <div class="card mb-4 box-shadow">
-        <div class="card-body">
-          <form method="POST" action="/topics/<%= item.id %>/questions" class="needs-validation">
-            <h2>Add question</h2>
-            <div class="row">
-                  <div class="col-md-9 mb-3">
-                    <textarea id="question_text" name="question_text" required class="form-control"></textarea>
-                    <% if (it.errors) { %>
-                      <ul>
-                        <% it.errors.forEach((error) => { %>
-                          <div class="alert alert-danger" role="alert">
-                            <strong>Oh snap!</strong> <%= error %>
-                          </div>
-                        <% }); %>
-                      </ul>
-                    <% } %>
-                  </div>
-                  <div class="col-md-3 mb-3">
-                    <button type="submit" class="btn btn-primary btn-mm">Add</button>
-                  </div>
-            </div>
-          </form>
-        </div>
-    </div>
-
-    <div class="jumbotron">
-      <h2>Topic : <%= item.name %></h2>
-
-        <% if (it.questions && it.questions.length > 0) { %>
-          <h5>Questions:</h5>
-          <ol class="list-group" >
-            <% it.questions.forEach(qItem => { %>
-              <li class="list-group-item qa-display">
-                <a href="/topics/<%= item.id %>/questions/<%= qItem.id %>" class="text-dark"><%= qItem.question_text %></a>
-                <span class="badge">
-                  <form method="POST" action="/topics/<%= item.id %>/questions/<%= qItem.id %>/delete/">
-                    <div class="btn-group">
-                          <button type="submit" class="btn btn-sm btn-outline-secondary" title="Delete">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
-          <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
-        </svg>
-                          </button>       
-                      </div>
-                  </form>
-                  </span>
-              </li>
-            <% }) %>
-          </ul>
-        <% } %>
-
-
-      <% if (it.user && it.user.isAdmin) { %>
-      <% } %>
-    </div>
-
-  <% }) %>
+<% if (it.user && it.user.admin)  { %>   
+  <div class="card mb-4 box-shadow">
+      <div class="card-body">
+        <form method="POST" action="/topics/<%= it.topic.id %>/questions" class="needs-validation">
+          <h2>Add question</h2>
+          <div class="row">
+                <div class="col-md-9 mb-3">
+                  <textarea id="question_text" name="question_text" required class="form-control"></textarea>
+                  <% if (it.errors) { %>
+                    <ul>
+                      <% it.errors.forEach((error) => { %>
+                        <div class="alert alert-danger" role="alert">
+                          <strong>Oh snap!</strong> <%= error %>
+                        </div>
+                      <% }); %>
+                    </ul>
+                  <% } %>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <button type="submit" class="btn btn-primary btn-mm">Add</button>
+                </div>
+          </div>
+        </form>
+      </div>
+  </div>
 <% } %>
+
+<div class="jumbotron">
+
+  <h3>Topic: <%= it.topic.name %></h3>
+    <% if (it.questions && it.questions.length > 0) { %>
+      <h5>Questions:</h5>
+      <ol class="list-group" >
+        <% it.questions.forEach(qItem => { %>
+          <li class="list-group-item qa-display">
+            <a href="/topics/<%= it.topic.id %>/questions/<%= qItem.id %>" class="text-dark"><%= qItem.question_text %></a>
+            <span class="badge">
+              <% if (it.user && it.user.admin) { %>
+                <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= qItem.id %>/delete/">
+                  <div class="btn-group">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" title="Delete">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
+        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+      </svg>
+                        </button>       
+                    </div>
+                </form>
+              <% } %>
+            </span>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <div class="alert alert-warning" role="alert">
+          <strong>Sorry!</strong> No questions have been added yet.
+        </div>
+    <% } %>
+
+</div>
+
+

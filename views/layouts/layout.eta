@@ -9,7 +9,8 @@
  <style>
  body{
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    /*font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; */
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -88,8 +89,7 @@ media (min-width: 576px) {
   .qa-display{margin-bottom: 10px; background-color:#fbfbfb;}
   
   .topics{font-size: 1.2em; line-height: 1.5; color::#a6d70;
-  display: inline-block;
-  vertical-align: middle;}
+  }
   .jumbotron {
         padding: 2rem 2rem;
     }
@@ -108,6 +108,34 @@ media (min-width: 576px) {
     border-radius: 3px;
 }
 .language-text{background: #d5d3d2;}
+
+.list-group-item a {
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+   /* font-size: 1em;*/
+}
+.text-muted{margin-bottom:0; margin-right:10px;}
+.samp{font-size: 1.1rem;}
+
+.topics > ol {
+   list-style: none;
+   counter-reset: item;
+ }
+ .topics > li {
+   counter-increment: item;
+   margin-bottom: 5px;
+ }
+ .topics > li:before {
+
+   content: counter(item);
+   background: #a7a7a7;
+   border-radius: 0;
+   color: white;
+   width: 1.3em;
+   text-align: center;
+   display: inline-block;
+ }
+.api {list-style:circle;list-style-position: inside;}
+ 
   </style>
 </head>
 <body>
@@ -115,16 +143,15 @@ media (min-width: 576px) {
 
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
       
-      <h5 class="my-0 mr-md-auto font-weight-normal"><a class="p-2 text-dark" href="/">Question Forum</a></h5>
+      <h5 class="my-0 mr-md-auto font-weight-normal"><a class="p-2 text-dark" href="/">QAForum</a></h5>
       <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark" href="/topics">Topics</a>
         <a class="p-2 text-dark" href="/quiz">Quiz</a>
-        <a class="p-2 text-dark" href="/api/questions/random">Api</a>
-        <a class="p-2 text-dark" href="/api/questions/answer">Api</a>
-      </nav>
+        <a class="p-2 text-dark" href="/api">Api</a>
+       </nav>
       <% if (it.user) { %>
-        <p><%= it.user.email %>
-            <a class="p-2 text-dark" href="/auth/logout">Logout</a>
+          <p class="text-muted"><%= it.user.email %></p>
+            <a class="btn btn-outline-primary" href="/auth/logout">Logout</a>
           <% } else { %>
             <a class="p-2 text-dark" href="/auth/register">Register</a>
             <a class="btn btn-outline-primary" href="/auth/login">Login</a>
@@ -137,8 +164,24 @@ media (min-width: 576px) {
       <%~ it.body %>
     </div>
   </main>
-  <footer>
-    <p></p>
-  </footer>
+  <div class="container">
+<footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+          <div class="col-12 col-md">
+            
+            <small class="d-block mb-3 text-muted">QAForum 2025</small>
+          </div>
+          <div class="col-6 col-md">
+            
+          </div>
+          <div class="col-6 col-md">
+           
+          </div>
+          <div class="col-6 col-md">
+            
+          </div>
+        </div>
+      </footer>
+      </div>
 </body>
 </html>

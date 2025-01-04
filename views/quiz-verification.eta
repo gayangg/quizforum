@@ -7,13 +7,13 @@
             <% it.errors.forEach((error) => { %>
                 <% if(it.verification === true) { %>
                     <div class="alert alert-success" role="alert">
-                        <strong>Done!</strong> <%= error %>
+                        <strong>Correct!</strong> <%= error %>
                     </div>
                 <% }else {%>
                     <div class="alert alert-danger" role="alert">
                         <strong>Oh snap!</strong> <%= error %>
                     </div>
-                    <p>&nbsp;</p>
+                    <br>
                     <p>The correct option was <mark class="">"<%= it.correctAnswer %>"</mark></p>
                 <% } %>
 

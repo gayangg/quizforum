@@ -57,4 +57,31 @@ const deleteQuestion = async (id) => {
     });
 };
 
-export { listQuestions, getQuestionsbyTopicId, getQuestionsbyQuestionId, addQuestionToTopic, deleteQuestion }
+const createAnswerOption = async (qId, optionText, isCorrect) => {
+    await sql`
+        INSERT INTO question_answer_options (question_id, option_text, is_correct) 
+        VALUES (${qId}, ${optionText}, ${isCorrect})
+    `;
+};
+
+const removeAnswerOption = async (qId) => {
+    await sql.begin(async (trx) => {
+        await trx`
+            DELETE FROM question_answers
+            WHERE question_id = ${qId}
+        `;
+        await trx`
+            DELETE FROM question_answer_options
+            WHERE id = ${qId}
+        `;
+    });
+};
+
+export { listQuestions, 
+    getQuestionsbyTopicId, 
+    getQuestionsbyQuestionId, 
+    addQuestionToTopic, 
+    deleteQuestion, 
+    createAnswerOption, 
+    removeAnswerOption 
+}

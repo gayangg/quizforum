@@ -1,4 +1,4 @@
-<% layout('./layouts/layout.eta', { title: 'Question Details' }) %>
+cd <% layout('./layouts/layout.eta', { title: 'Question Details' }) %>
 
 <h1><%= it.question.text %></h1>
 

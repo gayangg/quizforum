@@ -13,20 +13,21 @@ const getRandomQuestionForTopic = async ({ params, response, render }) => {
     const topic = await askingQuizService.getTopic(tId);
     const question = await askingQuizService.getRandomQuiz(tId);
     const randomIndex = Math.floor(Math.random() * question.length);
+    
     if(question.length >0){
         const randomQuestionId = question[randomIndex].id;
         response.redirect(`/quiz/${tId}/questions/${randomQuestionId}`);
     } else {
-        errors.push(`There are no questions available for this topic.`);
+        errors.push(`No questions have been added yet.`);
         render("quiz-topic.eta", { errors, topic, question });
     }
     //response.redirect(`/quiz/${tId}/questions/${randomQuestionId}`);
 };
 
-const getQuestionAndOptions = async ({ params, request, response, render }) => {
+const getQuestionAndOptions = async ({ params, request, response, render, user }) => {
     const path = request.url.pathname;
     const errors = [];
-    const warnings = [];
+    //const warnings = [];
     
     const { id, tId, qId } = params;
     if (id === undefined) {
@@ -45,7 +46,7 @@ const getQuestionAndOptions = async ({ params, request, response, render }) => {
     }
 
     if(options.length === 0){
-        warnings.push("There are no answers added yet for this question.");
+        errors.push("No answers have been added yet.");
         //render("quiz-topic.eta", { errors, topic:topic[0], qId, question, options });
     }
 
@@ -56,14 +57,14 @@ const getQuestionAndOptions = async ({ params, request, response, render }) => {
     };
 
     if (path.startsWith("/topics")) {
-        console.log("Path starts with '/topics'");
-        render("topic-questions-detail.eta", { errors, warnings, topic:topic[0], qId, question: question[0], options });
+        //console.log("Path starts with '/topics'");
+        render("topic-questions-detail.eta", { errors, topic:topic[0], qId, question: question[0], options, user });
         return;
     }
     if (path.startsWith("/quiz")) {
         const { tId :id } = params;
-        console.log("Path starts with '/quiz'", id);
-        render("quiz-topic.eta", { errors, warnings, topic:topic[0], qId, question, options });
+        console.log("Path starts with '/quiz'", errors,  "topic", topic, "qId", qId, "question", question, "options", options);
+        render("quiz-topic.eta", {  errors, topic:topic[0], qId, question, options });
         return;
     }
     //render("quiz-topic.eta", { errors, tId, question: question[0], options });
@@ -114,7 +115,7 @@ const addAnswerOption = async ({ request, response, params, render }) => {
 const handleAnswerSelection = async ({ params, user, response, render }) => {
     const errors = [];
     const { tId, qId, oId } = params;
-    const userId = 1//user.id;
+    const userId = user.id;
 
     const selectedOption = await askingQuizService.getSelectedOption(oId);
     console.log("selectedOption :", selectedOption);
@@ -187,9 +188,10 @@ const verifyAnswer = async ({ request, params, render }) => {
     const { tId } = params;
     const topic = await askingQuizService.getTopic(tId);
     const errors = [];
-    let verification =false;
+    let verification = false;
+    
     if (path.includes("/correct")) {
-        errors.push("Correct!");
+        errors.push("Well done.");
         verification = true;
     } else if (path.includes("/incorrect")) {
         errors.push("Incorrect!");

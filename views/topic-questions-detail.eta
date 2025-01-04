@@ -1,44 +1,45 @@
 <% layout('./layouts/layout.eta', { title: 'Topic Details' }) %>
 
 
-<div class="jumbotron">
-  <h2>Create answers</h2>
+<% if (it.user && it.user.admin) { %>
+  <div class="jumbotron">
+    <h2>Create answers</h2>
+      <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= it.qId %>/options">
+        <div class="row">
+                  <div class="col-md-9 mb-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="is_correct" name="is_correct" value="<% it.is_correct%>" >
+                      <label class="custom-control-label" for="is_correct">
+                        <textarea type="text" id="option_text" name="option_text" required class="form-control"></textarea>
+                      </label>
+                      <% if (it.errors) { %>
+                        <ul>
+                          <% it.errors.forEach((error) => { %>
+                            <div class="alert alert-danger" role="alert">
+                              <strong>Oh snap!</strong> <%= error %>
+                            </div>
+                          <% }); %>
+                        </ul>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <button type="submit" class="btn btn-primary btn-mm">Add</button>
+                  </div>
+            </div>
+      </form>
+  </div>
+<%} %>
 
-  <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= it.qId %>/options">
-     <div class="row">
-              <div class="col-md-9 mb-3">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="is_correct" name="is_correct" value="<% it.is_correct%>" >
-                  <label class="custom-control-label" for="is_correct">
-                    <textarea type="text" id="option_text" name="option_text" required class="form-control"></textarea>
-                  </label>
-                  <% if (it.errors) { %>
-                    <ul>
-                      <% it.errors.forEach((error) => { %>
-                        <div class="alert alert-danger" role="alert">
-                          <strong>Oh snap!</strong> <%= error %>
-                        </div>
-                      <% }); %>
-                    </ul>
-                  <% } %>
-                </div>
-              </div>
-              <div class="col-md-3 mb-3">
-                <button type="submit" class="btn btn-primary btn-mm">Add</button>
-              </div>
-        </div>
-  </form>
-</div>
-
 <div class="jumbotron">
-  <h2>Topic : <%= it.topic.name %></h2>
-  <h5><%= it.question.question_text %></h5>
+  <h3>Topic: <a href="/topics/<%= it.topic.id %>" class="text-dark" title="Back to topic: '<%= it.topic.name %>'"><%= it.topic.name %></a></h3>
+  <h5>Question: <%= it.question.question_text %></h5>
 
   <% if (it.warnings) { %>
     <ul>
       <% it.warnings.forEach((warning) => { %>
         <div class="alert alert-warning" role="alert">
-          <strong>Warning!</strong> <%= warning %>
+          <strong>Sorry!</strong> <%= warning %>
         </div>
       <% }); %>
     </ul>
@@ -49,13 +50,10 @@
       <ol class="list-group" >
         <% it.options.forEach(item => { %>
           <li class="list-group-item qa-display">
-          
-            <label class=""><%= item.is_correct %></label>
-           
             <label class=""><%= item.option_text %></label>
             <span class="badge">
-            
-              <form method="POST" action="/topics/<%= it.id %>/questions/<%= it.qId %>/options/<%= item.id %>/delete/">
+            <% if (it.user && it.user.admin) { %>
+              <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= it.qId %>/options/<%= item.id %>/delete/">
                   <div class="btn-group">
                       <button type="submit" class="btn btn-sm btn-outline-secondary" title="Delete">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -65,6 +63,7 @@
                       </button>       
                   </div>
               </form>
+            <% } %>
             </span>
           </li>
         <% }) %>

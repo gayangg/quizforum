@@ -28,18 +28,18 @@ router.post("/topics/:id/questions/:qId/delete", questionsController.deleteQuest
 
 // add answers/options
 //router.post("/topics/:id/questions/:qId/options", askingQuizControler.handleAnswerSelection);
-router.post("/topics/:id/questions/:qId/options", askingQuizControler.addAnswerOption);     // not complete
-
-
+//router.post("/topics/:id/questions/:qId/options", askingQuizControler.addAnswerOption);     // not complete
+router.post("/topics/:id/questions/:qId/options", questionsController.addAnswerOption);     // done
 
 // remove answer options
-router.post("/topics/:id/questions/:qId/options/:oId/delete", askingQuizControler.deleteAnswerOption);       // not complete
+router.post("/topics/:id/questions/:qId/options/:oId/delete", questionsController.deleteAnswerOption);       // done
 
 // ask/list questions
 router.get("/quiz", askingQuizControler.getTopicsForQuiz);                  //done
 router.get("/quiz/:tId", askingQuizControler.getRandomQuestionForTopic);    //done
 router.get("/quiz/:tId/questions/:qId", askingQuizControler.getQuestionAndOptions); //done
 router.post("/quiz/:tId/questions/:qId/options/:oId", askingQuizControler.handleAnswerSelection); 
+//router.post("/quiz/:tId/questions/:qId/options/:oId", answersController.addAnswerOption); 
 router.get("/quiz/:tId/questions/:qId/correct", askingQuizControler.verifyAnswer); //done
 router.get("/quiz/:tId/questions/:qId/incorrect", askingQuizControler.verifyAnswer); //done
 
@@ -52,9 +52,12 @@ router.get("/auth/register", authController.showRegistrationForm); //done
 router.post("/auth/register", authController.handleRegisteration); //done
 
 // API
-//router.get("/api", apiController.getApi);
+router.get("/api", apiController.showApi);
 router.get("/api/questions/random", apiController.getRandomQuiz);
 router.post("/api/questions/answer", apiController.getRandomQuizAnswer);
+
+//Logout
+router.get("/auth/logout", authController.handleLogout);
 
 export { router };
 

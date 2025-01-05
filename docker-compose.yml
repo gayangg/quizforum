@@ -14,7 +14,7 @@ services:
       - .env
       
   database:
-    container_name: "postgres-database"
+    container_name: "database-server"
     image: "postgres:13.4"
     restart: unless-stopped
     environment:

@@ -21,7 +21,7 @@ const getRandomQuiz = async ({ params, response, render }) => {
         const qTxt = question.questiontext;
         
         const answerOptions = await apiService.getOptionResults(qId);
-        //console.log("optionsResult:", answerOptions);   
+        console.log("optionsResult:", answerOptions);   
  
         response.body = {
             questionId: qId,

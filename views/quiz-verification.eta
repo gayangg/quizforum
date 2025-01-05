@@ -20,6 +20,6 @@
             <% }); %>
         </ul>
     <% } %>
-<%= it.correctAnswer %> <%= it.correctAnswer %>
-    <a href="/quiz/<%= it.nextQuestionLink %>">Next Question</a>
+
+    <a href="<%= it.nextQuestionLink %>">Next Question</a>
 </div>

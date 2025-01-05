@@ -27,7 +27,7 @@ const getRandomQuestionForTopic = async ({ params, response, render }) => {
 const getQuestionAndOptions = async ({ params, request, response, render, user }) => {
     const path = request.url.pathname;
     const errors = [];
-    //const warnings = [];
+    const warnings = [];
     
     const { id, tId, qId } = params;
     if (id === undefined) {
@@ -46,7 +46,7 @@ const getQuestionAndOptions = async ({ params, request, response, render, user }
     }
 
     if(options.length === 0){
-        errors.push("No answers have been added yet.");
+        warnings.push("No answers have been added yet.");
         //render("quiz-topic.eta", { errors, topic:topic[0], qId, question, options });
     }
 
@@ -58,13 +58,13 @@ const getQuestionAndOptions = async ({ params, request, response, render, user }
 
     if (path.startsWith("/topics")) {
         //console.log("Path starts with '/topics'");
-        render("topic-questions-detail.eta", { errors, topic:topic[0], qId, question: question[0], options, user });
+        render("topic-questions-detail.eta", { errors, warnings, topic:topic[0], qId, question: question[0], options, user });
         return;
     }
     if (path.startsWith("/quiz")) {
         const { tId :id } = params;
         console.log("Path starts with '/quiz'", errors,  "topic", topic, "qId", qId, "question", question, "options", options);
-        render("quiz-topic.eta", {  errors, topic:topic[0], qId, question, options });
+        render("quiz-topic.eta", {  errors, warnings, topic:topic[0], qId, question, options });
         return;
     }
     //render("quiz-topic.eta", { errors, tId, question: question[0], options });
@@ -112,7 +112,7 @@ const addAnswerOption = async ({ request, response, params, render }) => {
 };
 
 
-const handleAnswerSelection = async ({ params, user, response, render }) => {
+const handleAnswerSelection = async ({ params, user, response, render, context }) => {
     const errors = [];
     const { tId, qId, oId } = params;
     const userId = user.id;
@@ -121,33 +121,34 @@ const handleAnswerSelection = async ({ params, user, response, render }) => {
     console.log("selectedOption :", selectedOption);
     if (selectedOption.length === 0) {
         errors.push("Answer options not found.");
-
     }
 
     const isCorrect = selectedOption[0].is_correct;
     console.log("isCorrect +++", isCorrect);
-
     // Store the answer in the database
-    await askingQuizService.addUserAnswer(userId, qId, oId);
-  
+    await askingQuizService.addUserAnswer(userId, qId, oId, );
+    
+    const nextQuestionLink = `/quiz/${tId}`;
+
     if (isCorrect) {
-        response.redirect(`/quiz/${tId}/questions/${qId}/correct`);
+        render("quiz-verification.eta", { nextQuestionLink });
+        response.redirect(`/quiz/${tId}/questions/${qId}/correct?nextQuestionLink=${encodeURIComponent(nextQuestionLink)}`);
     } else {
         const correctOption = await askingQuizService.getCorrectOption(qId);
-        console.log("correctOption +++", correctOption);
-        // response.body = {
-        //     errors: "Sorry! Your answer is not correct.",
-        //     correctAnswer: correctOption.length > 0 ? correctOption[0].option_text : "No correct answer found.",
-        //     nextQuestionLink: `/quiz/${tId}`,
-        // };
-       
+        console.log("correctOption +++", correctOption);     
         const correctAnswer = correctOption.length > 0 ? correctOption[0].option_text : "No correct answer found.";
-        const nextQuestionLink = `/quiz/${tId}`;
+        
+        
+        // Store data in the session
+       // await context.state.session.set("correctAnswer", correctAnswer);
+       // await context.state.session.set("nextQuestionLink", nextQuestionLink);
+
         console.log("correctAnswer +++", correctAnswer);
         console.log("nextQuestionLink +++", nextQuestionLink);
-        // render("quiz-incorrect.eta", { errors,  correctAnswer, nextQuestionLink });
-        render("quiz-verification.eta", { correctAnswer, nextQuestionLink});
-        response.redirect(`/quiz/${tId}/questions/${qId}/incorrect`);
+ 
+        render("quiz-verification.eta", { correctAnswer, nextQuestionLink });
+        //response.redirect(`/quiz/${tId}/questions/${qId}/incorrect`);
+        response.redirect(`/quiz/${tId}/questions/${qId}/incorrect?correctAnswer=${encodeURIComponent(correctAnswer)}&nextQuestionLink=${encodeURIComponent(nextQuestionLink)}`);
     }
 };
 
@@ -186,7 +187,12 @@ const deleteAnswerOption = async({request, response, params}) => {
 const verifyAnswer = async ({ request, params, render }) => {
     const path = request.url.pathname;
     const { tId } = params;
+    const url = new URL(request.url);
+    const correctAnswer = url.searchParams.get("correctAnswer");
+    const nextQuestionLink = url.searchParams.get("nextQuestionLink");
+
     const topic = await askingQuizService.getTopic(tId);
+    console.log("topic:", topic);
     const errors = [];
     let verification = false;
     
@@ -196,7 +202,7 @@ const verifyAnswer = async ({ request, params, render }) => {
     } else if (path.includes("/incorrect")) {
         errors.push("Incorrect!");
     }
-    render("quiz-verification.eta", { errors, topic, verification});
+    render("quiz-verification.eta", { errors, topic, verification, correctAnswer, nextQuestionLink});
 }
 
 export {

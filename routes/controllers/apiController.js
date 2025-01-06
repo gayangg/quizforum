@@ -1,12 +1,7 @@
 import * as apiService from '../../services/apiService.js';
 
 const showApi = ({ render, user }) => {
-  const cUser = {};
-  console.log("User data from API page", {cUser:user})
-  if (user) {
-    
-  }
-  render("api.eta", {cUser:user});
+  render("api.eta");
 }
 
 

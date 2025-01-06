@@ -13,7 +13,7 @@ const handleRegisteration = async ({ request, response, render }) => {
   const email = formData.get("email");
   const password = formData.get("password");
   const errors = [];
-  console.log("email:", email, "password:", password)
+  //console.log("email:", email, "password:", password)
 
 
   if (!formValidation.email(email)) {
@@ -28,7 +28,7 @@ const handleRegisteration = async ({ request, response, render }) => {
   }
 
   const existingEmail = await authService.getUserByEmail(email);
-  console.log("existingEmail", existingEmail)
+  //console.log("existingEmail", existingEmail)
   if (existingEmail !== null && existingEmail.email) {
     errors.push("Email already exists.");  
   }   

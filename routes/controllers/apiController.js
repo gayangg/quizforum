@@ -1,11 +1,16 @@
 import * as apiService from '../../services/apiService.js';
 
-const showApi = ({render}) => {
-    render("api.eta");
+const showApi = ({ render, user }) => {
+  const cUser = {};
+  console.log("User data from API page", {cUser:user})
+  if (user) {
+    
+  }
+  render("api.eta", {cUser:user});
 }
 
 
-const getRandomQuiz = async ({ params, response, render }) => {
+const getRandomQuiz = async ({ params, response, render, user }) => {
 
     const errors = [];
    
@@ -34,50 +39,42 @@ const getRandomQuiz = async ({ params, response, render }) => {
   }
 }
 
-const getRandomQuizAnswer = async ({ request, response, render }) => { 
-    // const errors = [];
-    // //const { qId, oId } = request.body;
-    // console.log('XXXX:');
-
-    // if (!qId || !oId) {
-    //     console.log('AAAAA:');
-    //     return response(400).json({ error: 'Missing questionId or optionId' });
-    // }
+const getRandomQuizAnswer = async ({ request, response, render, user }) => { 
 
     const  questionResult = await apiService.getRandomQuiz();
+    console.log("getRandomQuiz:", questionResult)
+    //return;
+  
+  try {
+    const body = await request.body().value;
+    const { questionId, optionId } = body;
 
-    if (questionResult.rowCount === 0) {
-        response.body = {}
-        return;
+    if (!questionId || !optionId) {
+      response.status = 400;
+      response.body = { error: "Both questionId and optionId are required." };
+      return;
     }
-    const question = questionResult[0];
-    const qId = question.questionid;
-    const qTxt = question.questiontext;
+
+    // Check if the option is correct
+    const correctOption = await apiService.getCorrectAnswerResult(questionId);
+
+    if (!correctOption || correctOption.length === 0) {
+      response.status = 404;
+      response.body = { error: "No correct answer found for the question." };
+      return;
+    }
+
+    const isCorrect = correctOption[0].id === optionId;
+
+    // Send response
+    response.status = 200;
+    response.body = { correct: isCorrect };
+  } catch (error) {
+    console.error("Error verifying answer:", error);
+    response.status = 500;
+    response.body = { error: "Internal server error." };
+  }
     
-    const result = await apiService.getOptionResults(qId, oId);
-
-    if (result.rowCount === 0) {
-        return response(404).json({ error: 'Option not found for the given question' });
-    }
-    const { is_correct, option_text } = result.rows[0];
-    console.error('is_correct:', is_correct);
-    
-    if (is_correct) {
-      // If the answer is correct
-      return response.json({ correct: true });
-    } else {
-      // If the answer is incorrect, provide the correct option
-        const correctAnswerResult = await apiService.getCorrectAnswerResult(qId);
-        const correctOptionText =
-        correctAnswerResult.rowCount > 0
-          ? correctAnswerResult.rows[0].option_text
-          : 'No correct option found';
-
-      return response.json({
-        correct: false,
-        correctAnswer: correctOptionText,
-      });
-    }
 }
 
 

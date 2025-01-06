@@ -2,6 +2,7 @@
 
 <div class="jumbotron">
     <h2>Answer verification</h2>
+    <!--<p>Q:<%= it.qId %></p>-->
     <% if (it.errors) { %>
         <ul>
             <% it.errors.forEach((error) => { %>
@@ -14,7 +15,7 @@
                         <strong>Oh snap!</strong> <%= error %>
                     </div>
                     <br>
-                    <p>The correct option was <mark class="">"<%= it.correctAnswer %>"</mark></p>
+                    <p>The correct answer was <mark class="">"<%= it.correctAnswer %>"</mark></p>
                 <% } %>
 
             <% }); %>

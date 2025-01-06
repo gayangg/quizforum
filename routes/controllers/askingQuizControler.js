@@ -116,13 +116,12 @@ const handleAnswerSelection = async ({ params, user, response, render, context }
     const errors = [];
     const { tId, qId, oId } = params;
     const userId = user.id;
-
     const selectedOption = await askingQuizService.getSelectedOption(oId);
-    console.log("selectedOption :", selectedOption);
+    
     if (selectedOption.length === 0) {
         errors.push("Answer options not found.");
     }
-
+    console.log("qId +++", qId);
     const isCorrect = selectedOption[0].is_correct;
     console.log("isCorrect +++", isCorrect);
     // Store the answer in the database
@@ -131,23 +130,17 @@ const handleAnswerSelection = async ({ params, user, response, render, context }
     const nextQuestionLink = `/quiz/${tId}`;
 
     if (isCorrect) {
-        render("quiz-verification.eta", { nextQuestionLink });
+        render("quiz-verification.eta", { qId, nextQuestionLink });
         response.redirect(`/quiz/${tId}/questions/${qId}/correct?nextQuestionLink=${encodeURIComponent(nextQuestionLink)}`);
     } else {
         const correctOption = await askingQuizService.getCorrectOption(qId);
-        console.log("correctOption +++", correctOption);     
         const correctAnswer = correctOption.length > 0 ? correctOption[0].option_text : "No correct answer found.";
         
-        
         // Store data in the session
-       // await context.state.session.set("correctAnswer", correctAnswer);
-       // await context.state.session.set("nextQuestionLink", nextQuestionLink);
-
-        console.log("correctAnswer +++", correctAnswer);
-        console.log("nextQuestionLink +++", nextQuestionLink);
+        // await context.state.session.set("correctAnswer", correctAnswer);
+        // await context.state.session.set("nextQuestionLink", nextQuestionLink);
  
         render("quiz-verification.eta", { correctAnswer, nextQuestionLink });
-        //response.redirect(`/quiz/${tId}/questions/${qId}/incorrect`);
         response.redirect(`/quiz/${tId}/questions/${qId}/incorrect?correctAnswer=${encodeURIComponent(correctAnswer)}&nextQuestionLink=${encodeURIComponent(nextQuestionLink)}`);
     }
 };
@@ -168,7 +161,7 @@ const showQuestion = async ({request, response}) => {
         });
     } catch (error) {
         console.error("Error fetching question:", error);
-        res.status(500).send("Internal Server Error");
+        response.status(500).send("Internal Server Error");
     }
 };
 

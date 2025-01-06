@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= it.title || 'Quiz App' %></title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="../../css/custom.css" type="text/css"> 
+  <link rel="stylesheet" href="/css/custom.css" type="text/css"> 
  <style>
  body{
     margin: 0;
@@ -17,6 +17,7 @@
     color: #212529;
     text-align: left;
     background-color: #f8f9fa;
+    font-size:1em;
 }
 a {
   outline-color: transparent;
@@ -127,7 +128,7 @@ media (min-width: 576px) {
  .topics > li:before {
 
    content: counter(item);
-   background: #a7a7a7;
+   background: #cfcfcf;
    border-radius: 0;
    color: white;
    width: 1.3em;
@@ -135,7 +136,7 @@ media (min-width: 576px) {
    display: inline-block;
  }
 .api {list-style:circle;list-style-position: inside;}
- 
+ .welcome lable{font-size:12px; float:right;margin:5px 9px 0 0;}
   </style>
 </head>
 <body>
@@ -150,7 +151,10 @@ media (min-width: 576px) {
         <a class="p-2 text-dark" href="/api">Api</a>
        </nav>
       <% if (it.user) { %>
-          <p class="text-muted"><%= it.user.email %></p>
+          <span class="welcome">
+            <lable >Welcome</lable>
+            <p class="text-muted"><%= it.user.email %></p>
+          </span>
             <a class="btn btn-outline-primary" href="/auth/logout">Logout</a>
           <% } else { %>
             <a class="p-2 text-dark" href="/auth/register">Register</a>

@@ -1,15 +1,16 @@
 <% layout("./layouts/layout.eta") %>
 
 <div class="jumbotron">
-  <h2>List of topics</h2>
+  <h2>Select a topic to start the quiz.</h2>
 
   <% if (it.quiz && it.quiz.length > 0) { %>
-    <ul class="list-group" >
+    <ul class="list-group topics" >
       <% it.quiz.forEach(item => { %>
-      <a href="/quiz/<%= item.id %>" class="topics text-dark">
         <li class="list-group-item">
-          <%= item.name %>
-        </li></a>
+          <a href="/quiz/<%= item.id %>" class="topics text-dark">
+            <%= item.name %>
+          </a>
+        </li>
       <% }) %>
     </ul>
   <% } else { %>

@@ -30,4 +30,4 @@ const removeOption = async (qId) => {
     });
 };
 
-export { getOptionsByQuestion, createOption, removeOption}
+export { getOptionsByQuestion, createOption, removeOption }

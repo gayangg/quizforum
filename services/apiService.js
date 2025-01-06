@@ -20,11 +20,11 @@ const getOptionResults = async (qId) => {
     return rows;
 }
 
-const getResults = async (oId, qId) => {
+const getResults = async (qId) => {
     const rows = await sql`
-        SELECT option_text, is_correct
+        SELECT id, option_text, is_correct
         FROM question_answer_options
-        WHERE id= ${oId} AND question_id = ${qId}
+        WHERE question_id = ${qId} AND is_correct = TRUE
     `;
     return rows;
 }

@@ -4,7 +4,8 @@
 <% if (it.user && it.user.admin)  { %>   
   <div class="card mb-4 box-shadow">
       <div class="card-body">
-        <form method="POST" action="/topics/<%= it.topic.id %>/questions" class="needs-validation">
+      <% it.topic.forEach(item => { %>
+        <form method="POST" action="/topics/<%= item.id %>/questions" class="needs-validation">
           <h2>Add question</h2>
           <div class="row">
                 <div class="col-md-9 mb-3">
@@ -24,23 +25,24 @@
                 </div>
           </div>
         </form>
+        <% }) %>
       </div>
   </div>
 <% } %>
 
 <div class="jumbotron">
-
-  <h3>Topic: <%= it.topic.name %></h3>
+<% it.topic.forEach(tItem => { %>
+  <h3>Topic: <%= tItem.name %></h3>
   <div class="spacer">&nbsp</div>
     <% if (it.questions && it.questions.length > 0) { %>
       <h5>Questions:</h5>
       <ol class="list-group" >
         <% it.questions.forEach(qItem => { %>
           <li class="list-group-item qa-display">
-            <a href="/topics/<%= it.topic.id %>/questions/<%= qItem.id %>" class="text-dark"><%= qItem.question_text %></a>
+            <a href="/topics/<%= tItem.id %>/questions/<%= qItem.id %>" class="text-dark"><%= qItem.question_text %></a>
             <span class="badge">
               <% if (it.user && it.user.admin) { %>
-                <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= qItem.id %>/delete/">
+                <form method="POST" action="/topics/<%= tItem.id %>/questions/<%= qItem.id %>/delete/">
                   <div class="btn-group">
                         <button type="submit" class="btn btn-sm btn-outline-secondary" title="Delete">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -60,7 +62,7 @@
           <strong>Sorry!</strong> No questions have been added yet.
         </div>
     <% } %>
-
+<% })%>
 </div>
 
 

@@ -13,8 +13,9 @@ const listTopicsbyId = async ({ render, params, user }) => {
 };
 
 const addTopic = async ({ request, response, user, render }) => {
-  const current_user = 93;//user;
-  
+  const current_user = user;
+   console.log("current_user> addTopics: ", current_user);
+  console.log("user id", user.id)
   const body =  request.body({ type: "form" });
   const params = await body.value;
   const topicName = params.get("name").trim();

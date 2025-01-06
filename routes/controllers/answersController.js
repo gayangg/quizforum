@@ -15,11 +15,9 @@ const addAnswerOption = async ({ params, request, response, render }) => {
   //const isCrr = formData.is_correct === 'on';
   const isCorrect = formData.has("is_correct");
   const errors = [];
-   console.log("errors", errors, "optionText:", optionText , "isCorrect", isCorrect);
 
   if (!formValidation.length(optionText, { minLength: 1 })) {
     errors.push("Option text must not be empty.");
-    console.log("errors", errors, "optionText:", optionText , "isCorrect", isCorrect);
     //render("topic-questions-detail.eta", { errors });
     response.redirect(`/topics/${id}/questions/${qId}`);
     return;

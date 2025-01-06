@@ -4,11 +4,8 @@ const showApi = ({ render, user }) => {
   render("api.eta");
 }
 
-
 const getRandomQuiz = async ({ params, response, render, user }) => {
-
     const errors = [];
-   
     try {
         const  questionResult = await apiService.getRandomQuiz();
 
@@ -20,8 +17,7 @@ const getRandomQuiz = async ({ params, response, render, user }) => {
         const qId = question.questionid;
         const qTxt = question.questiontext;
         
-        const answerOptions = await apiService.getOptionResults(qId);
-        console.log("optionsResult:", answerOptions);   
+        const answerOptions = await apiService.getOptionResults(qId); 
  
         response.body = {
             questionId: qId,
@@ -37,7 +33,6 @@ const getRandomQuiz = async ({ params, response, render, user }) => {
 const getRandomQuizAnswer = async ({ request, response, render, user }) => { 
 
     const  questionResult = await apiService.getRandomQuiz();
-    console.log("getRandomQuiz:", questionResult)
     //return;
   
   try {

@@ -1,45 +1,46 @@
 <% layout('./layouts/layout.eta', { title: 'Topic Details' }) %>
 
+  <% if (it.topic && it.topic.length > 0) { %>
+    <% it.topic.forEach((tItem) => { %>
+
 
 <% if (it.user && it.user.admin) { %>
   <div class="jumbotron">
     <h2>Create answers</h2>
-      <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= it.qId %>/options">
+      <form method="POST" action="/topics/<%= tItem.id %>/questions/<%= it.qId %>/options">
         <div class="row">
-                  <div class="col-md-9 mb-3">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="is_correct" name="is_correct" value="<% it.is_correct%>" >
-                      <label class="custom-control-label" for="is_correct">
-                        <textarea type="text" id="option_text" name="option_text" required class="form-control"></textarea>
-                      </label>
-                      <% if (it.errors) { %>
-                        <ul>
-                          <% it.errors.forEach((error) => { %>
-                            <div class="alert alert-danger" role="alert">
-                              <strong>Oh snap!</strong> <%= error %>
-                            </div>
-                          <% }); %>
-                        </ul>
-                      <% } %>
-                    </div>
-                  </div>
-                  <div class="col-md-3 mb-3">
-                    <button type="submit" class="btn btn-primary btn-mm">Add</button>
-                  </div>
+            <div class="col-md-9 mb-3">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="is_correct" name="is_correct" value="<% it.is_correct%>" >
+                <label class="custom-control-label" for="is_correct">
+                  <textarea type="text" id="option_text" name="option_text" required class="form-control"></textarea>
+                </label>
+                <% if (it.errors) { %>
+                  <ul>
+                    <% it.errors.forEach((error) => { %>
+                      <div class="alert alert-danger" role="alert">
+                        <strong>Oh snap!</strong> <%= error %>
+                      </div>
+                    <% }); %>
+                  </ul>
+                <% } %>
+              </div>
             </div>
+            <div class="col-md-3 mb-3">
+              <button type="submit" class="btn btn-primary btn-mm">Add</button>
+            </div>
+        </div>
       </form>
   </div>
 <%} %>
 
 <div class="jumbotron">
-  <% if (it.topic && it.topic.length > 0) { %>
-    <% it.topic.forEach((item) => { %>
+
       <h3>Topic: 
-        <a href="/topics/<%= item.id %>" class="text-dark" title="Back to topic: '<%= item.name %>'"><%= item.name %></a>
+        <a href="/topics/<%= tItem.id %>" class="text-dark" title="Back to topic: '<%= tItem.name %>'"><%= tItem.name %></a>
       </h3>
-    <% }); %>
     <div class="spacer">&nbsp</div>
-  <% } %>
+
 
   <h5>Question: <%= it.question.question_text %></h5>
 
@@ -61,7 +62,7 @@
             <label class=""><%= item.option_text %></label>
             <span class="badge">
             <% if (it.user && it.user.admin) { %>
-              <form method="POST" action="/topics/<%= it.topic.id %>/questions/<%= it.qId %>/options/<%= item.id %>/delete/">
+              <form method="POST" action="/topics/<%= tItem.id %>/questions/<%= it.qId %>/options/<%= item.id %>/delete/">
                   <div class="btn-group">
                       <button type="submit" class="btn btn-sm btn-outline-secondary" title="Delete">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -81,7 +82,8 @@
   </div>
 </div>
 
-
+    <% }); %>
+  <% } %>
 
 
 

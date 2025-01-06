@@ -3,10 +3,9 @@
 <div class="jumbotron">
 
 <% if (it.topic && it.topic.length > 0) { %>
-  <% it.topic.forEach((item) => { %>
-    <h3>Topic: <%= item.name %></h3>
-  <% }); %>
-<% } %>
+  <% it.topic.forEach((tItem) => { %>
+    <h3>Topic: <%= tItem.name %></h3>
+  
 <div class="spacer">&nbsp</div>
 <div>
     <% if (it.question && it.question.length > 0) { %>
@@ -30,7 +29,7 @@
           <li class="list-group-item qa-display">
               <label><%= item.option_text %></label>
               <span class="badge">
-                <form method="POST" action="/quiz/<%= it.topic.id %>/questions/<%= it.qId %>/options/<%= item.id %>">
+                <form method="POST" action="/quiz/<%= tItem.id %>/questions/<%= it.qId %>/options/<%= item.id %>">
                     <div class="col-md-3 mb-3">
                       <button type="submit" class="btn btn-primary btn-sm">Choose</button>
                     </div>
@@ -47,4 +46,8 @@
       </ol>
     <% } %>
   </div>
+
+  <% }); %>
+<% } %>
+
 </div>

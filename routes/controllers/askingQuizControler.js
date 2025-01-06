@@ -19,8 +19,6 @@ const getRandomQuestionForTopic = async ({ params, response, render }) => {
         response.redirect(`/quiz/${tId}/questions/${randomQuestionId}`);
     } else {
         errors.push(`No questions have been added yet.`);
-        console.log("topic Object :", topic)
-        console.log("topic name :", topic[0].name)
         render("quiz-topic.eta", { errors, topic, question });
     }
     //response.redirect(`/quiz/${tId}/questions/${randomQuestionId}`);
@@ -59,32 +57,25 @@ const getQuestionAndOptions = async ({ params, request, response, render, user }
     };
 
     if (path.startsWith("/topics")) {
-        //console.log("Path starts with '/topics'");
         render("topic-questions-detail.eta", { errors, warnings, topic, qId, question: question[0], options, user });
         return;
     }
     if (path.startsWith("/quiz")) {
         const { tId :id } = params;
-        console.log("Path starts with '/quiz'", errors,  "topic", topic, "qId", qId, "question", question, "options", options);
         render("quiz-topic.eta", {  errors, warnings, topic, qId, question, options });
         return;
     }
-    //render("quiz-topic.eta", { errors, tId, question: question[0], options });
 }
 
 const addAnswerOption = async ({ request, response, params, render }) => {
     const { id, qId } = params;
-    console.log("topicId::", id, "questionId::", qId);
     const body =  request.body({ type: "form" });
     const formData = await body.value;
-    //const { option_text, is_correct } = request.body;
     const option_text = formData.get("option_text");
     const is_correct = formData.get("is_correct") ? true : false;
-    
     //const is_correct = { option_text, is_correct: is_correct === "on" };
     const errors = [];
 
-    console.log("option_text::", option_text, "is_coorect::", is_correct);
     // Validation
     if (!option_text || option_text.trim().length === 0) {
         errors.push("Answer option must contain at least one character.");
@@ -123,9 +114,9 @@ const handleAnswerSelection = async ({ params, user, response, render, context }
     if (selectedOption.length === 0) {
         errors.push("Answer options not found.");
     }
-    console.log("qId +++", qId);
+
     const isCorrect = selectedOption[0].is_correct;
-    console.log("isCorrect +++", isCorrect);
+
     // Store the answer in the database
     await askingQuizService.addUserAnswer(userId, qId, oId, );
     
@@ -169,11 +160,8 @@ const showQuestion = async ({request, response}) => {
 
 const deleteAnswerOption = async({request, response, params}) => { 
     const { id: topicId, qId: questionId, oId: optionId} = params;
-    console.log("topicId::", topicId);
-    console.log("questionId::", questionId);
-    console.log("optionId::", optionId);
     const options = await askingQuizService.getOptions(questionId);
-    console.log("optionId::", options);
+
     //await askingQuizService.deleteAnswer(optionId);
     
     response.redirect(`/topics/${topicId}/questions/${questionId}`);

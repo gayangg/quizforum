@@ -12,13 +12,13 @@ const getQuestionsByTId = async ({ params, render, user }) => {
   const { id: topicId  } = params;
   const topic = await topicsService.getTopicbyId(topicId);
   const questions = await questionsService.getQuestionsbyTopicId(topicId);
-
-  render("topic-questions.eta", {topic: topic[0] , questions, user });
+  render("topic-questions.eta", { topic , questions, user });
 };
 
 
 const addQuestion = async ({ params, request, response, user, render }) => {
-  const current_user = 93;
+  const current_user = user;
+  console.log("current_user> addQuestion: ", current_user);
   const {id: topicId} = params;
   const questions = await questionsService.getQuestionsbyTopicId(topicId)
   const body =  request.body({type: "form"});

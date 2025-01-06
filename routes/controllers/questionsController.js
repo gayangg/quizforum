@@ -27,8 +27,8 @@ const addQuestion = async ({ params, request, response, user, render }) => {
   
   if (!formValidation.length(questionText, { minLength: 1 })) {
     errors.push("Question must not be empty");
-    render("topic-questions.eta", {errors, questions });
-    //response.redirect(`/topics/${topicId}`);
+   // render("topic-questions.eta", {errors, questions , questionText});
+    response.redirect(`/topics/${topicId}`);
     return;
   }
 

@@ -4,19 +4,17 @@ import * as formValidation from "../../utils/validation.js";
 
 const listTopics = async ({ render , user}) => {
   const errors = [];
-  console.log('user', user)
   render("topics.eta", { errors, topics: await topicsService.getTopics() , user});
 };
 
 const listTopicsbyId = async ({ render, params, user }) => {
   const {id:topicId} = params;
-   console.log('user', user)
   render("topic-questions.eta", { topic: await topicsService.getTopicbyId(topicId) , user});
 };
 
 const addTopic = async ({ request, response, user, render }) => {
   const current_user = 93;//user;
-  console.log("current_user >>>>>>>>>>", current_user)
+  
   const body =  request.body({ type: "form" });
   const params = await body.value;
   const topicName = params.get("name").trim();

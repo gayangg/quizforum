@@ -1,0 +1,50 @@
+<% layout("./layouts/layout.eta") %>
+
+<div class="jumbotron">
+
+<% if (it.topic && it.topic.length > 0) { %>
+  <% it.topic.forEach((item) => { %>
+    <h3>Topic: <%= item.name %></h3>
+  <% }); %>
+<% } %>
+<div class="spacer">&nbsp</div>
+<div>
+    <% if (it.question && it.question.length > 0) { %>
+      <h5>Question: <%= it.question[0].question_text %></h5>
+    <% } %>
+
+    <% if (it.errors) { %>
+      <ul>
+        <% it.errors.forEach((error) => { %>
+          <div class="alert alert-warning" role="alert">
+            <strong>Sorry!</strong> <%= error %>
+          </div>
+        <% }); %>
+      </ul>
+    <% } %>
+
+    <% if (it.options && it.options.length > 0) { %>
+    
+      <ol class="list-group" >
+        <% it.options.forEach(item => { %>
+          <li class="list-group-item qa-display">
+              <label><%= item.option_text %></label>
+              <span class="badge">
+                <form method="POST" action="/quiz/<%= it.topic.id %>/questions/<%= it.qId %>/options/<%= item.id %>">
+                    <div class="col-md-3 mb-3">
+                      <button type="submit" class="btn btn-primary btn-sm">Choose</button>
+                    </div>
+                </form>
+              </span>
+          </li>
+            <!--<div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="<%= item.id %>" name="is_correct" value="<%= it.is_correct%>" >
+              <label class="custom-control-label" for="<%= item.id %>">
+                <%= item.option_text %> / <%= item.id %> / <%= item.is_correct %>
+              </label>
+            </div>-->
+        <% }) %>
+      </ol>
+    <% } %>
+  </div>
+</div>

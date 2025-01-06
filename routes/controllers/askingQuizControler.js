@@ -19,6 +19,8 @@ const getRandomQuestionForTopic = async ({ params, response, render }) => {
         response.redirect(`/quiz/${tId}/questions/${randomQuestionId}`);
     } else {
         errors.push(`No questions have been added yet.`);
+        console.log("topic Object :", topic)
+        console.log("topic name :", topic[0].name)
         render("quiz-topic.eta", { errors, topic, question });
     }
     //response.redirect(`/quiz/${tId}/questions/${randomQuestionId}`);
@@ -58,13 +60,13 @@ const getQuestionAndOptions = async ({ params, request, response, render, user }
 
     if (path.startsWith("/topics")) {
         //console.log("Path starts with '/topics'");
-        render("topic-questions-detail.eta", { errors, warnings, topic:topic[0], qId, question: question[0], options, user });
+        render("topic-questions-detail.eta", { errors, warnings, topic, qId, question: question[0], options, user });
         return;
     }
     if (path.startsWith("/quiz")) {
         const { tId :id } = params;
         console.log("Path starts with '/quiz'", errors,  "topic", topic, "qId", qId, "question", question, "options", options);
-        render("quiz-topic.eta", {  errors, warnings, topic:topic[0], qId, question, options });
+        render("quiz-topic.eta", {  errors, warnings, topic, qId, question, options });
         return;
     }
     //render("quiz-topic.eta", { errors, tId, question: question[0], options });

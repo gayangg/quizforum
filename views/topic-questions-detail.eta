@@ -32,7 +32,15 @@
 <%} %>
 
 <div class="jumbotron">
-  <h3>Topic: <a href="/topics/<%= it.topic.id %>" class="text-dark" title="Back to topic: '<%= it.topic.name %>'"><%= it.topic.name %></a></h3>
+  <% if (it.topic && it.topic.length > 0) { %>
+    <% it.topic.forEach((item) => { %>
+      <h3>Topic: 
+        <a href="/topics/<%= item.id %>" class="text-dark" title="Back to topic: '<%= item.name %>'"><%= item.name %></a>
+      </h3>
+    <% }); %>
+    <div class="spacer">&nbsp</div>
+  <% } %>
+
   <h5>Question: <%= it.question.question_text %></h5>
 
   <% if (it.warnings) { %>

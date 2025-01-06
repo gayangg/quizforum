@@ -137,6 +137,9 @@ media (min-width: 576px) {
  }
 .api {list-style:circle;list-style-position: inside;}
  .welcome lable{font-size:12px; float:right;margin:5px 9px 0 0;}
+ .spacer {
+    border-top: 1px solid #dee2e6 !important;
+}
   </style>
 </head>
 <body>

@@ -13,7 +13,6 @@ const handleRegisteration = async ({ request, response, render }) => {
   const email = formData.get("email");
   const password = formData.get("password");
   const errors = [];
-  //console.log("email:", email, "password:", password)
 
 
   if (!formValidation.email(email)) {
@@ -28,7 +27,7 @@ const handleRegisteration = async ({ request, response, render }) => {
   }
 
   const existingEmail = await authService.getUserByEmail(email);
-  //console.log("existingEmail", existingEmail)
+
   if (existingEmail !== null && existingEmail.email) {
     errors.push("Email already exists.");  
   }   
@@ -40,7 +39,6 @@ const handleRegisteration = async ({ request, response, render }) => {
   
   await authService.addUser(email, password);
   response.redirect('/auth/login');
-  
 };
 
 const showLoginForm = ({ render}) => {
@@ -55,7 +53,6 @@ const showLoginForm = ({ render}) => {
 //   const password = params.get("password");
 //   const errors = [];
 
-
 //     try {
 //       //const user = await authService.authenticateUser(email, password);
 //       //console.log("user:", user);
@@ -67,7 +64,6 @@ const showLoginForm = ({ render}) => {
 //         console.error("Error during login:", error);
 //     }
 // };
-
 
 
 const handleLogin = async ({request, response, render, state}) => {
@@ -84,7 +80,6 @@ const handleLogin = async ({request, response, render, state}) => {
 
     try {
       const user = await authService.authenticateUser(email, password);
-      console.log("user:", user);
         if (user) {
           await state.session.set("user", user);
           response.redirect("/topics");

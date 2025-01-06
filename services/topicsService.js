@@ -6,7 +6,6 @@ const getTopics = async () => {
         FROM topics
         ORDER BY name ASC
     `;
-    //console.log("Calling results:", rows);
     return rows;
 };
 
@@ -16,7 +15,6 @@ const getTopicbyId = async (topicId) => {
         FROM topics
         WHERE id = ${topicId} 
     `;
-    //console.log("Calling results:", rows);
     return rows;
 };
 

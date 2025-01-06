@@ -17,8 +17,7 @@ const getQuestionsByTId = async ({ params, render, user }) => {
 
 
 const addQuestion = async ({ params, request, response, user, render }) => {
-  const current_user = user;
-  console.log("current_user> addQuestion: ", current_user);
+  const uId = user.id;
   const {id: topicId} = params;
   const questions = await questionsService.getQuestionsbyTopicId(topicId)
   const body =  request.body({type: "form"});
@@ -34,7 +33,7 @@ const addQuestion = async ({ params, request, response, user, render }) => {
   }
 
   // add question to releval topic
-  await questionsService.addQuestionToTopic(topicId, current_user, questionText);
+  await questionsService.addQuestionToTopic(topicId, uId, questionText);
   response.redirect(`/topics/${topicId}`);
 };
 
@@ -45,7 +44,6 @@ const deleteQuestion = async ({ params, response }) => {
   
   response.redirect(`/topics/${topicId}`);
 };
-
 
 const addAnswerOption = async ({ params, request, response, render }) => {
   const { id, qId } = params;

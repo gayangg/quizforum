@@ -1,7 +1,6 @@
 import * as topicsService from '../../services/topicsService.js';
 import * as formValidation from "../../utils/validation.js";
 
-
 const listTopics = async ({ render , user}) => {
   const errors = [];
   render("topics.eta", { errors, topics: await topicsService.getTopics() , user});
@@ -13,9 +12,7 @@ const listTopicsbyId = async ({ render, params, user }) => {
 };
 
 const addTopic = async ({ request, response, user, render }) => {
-  const current_user = user;
-   console.log("current_user> addTopics: ", current_user);
-  console.log("user id", user.id)
+  const id = user.id;
   const body =  request.body({ type: "form" });
   const params = await body.value;
   const topicName = params.get("name").trim();
@@ -25,7 +22,6 @@ const addTopic = async ({ request, response, user, render }) => {
   //   response.status = 403;
   //   return;
   // }
-  console.log("topicName", topicName)
   
   if (!formValidation.length(topicName, { minLength: 1 })) {
     errors.push("Topic name must not be empty");
@@ -41,7 +37,7 @@ const addTopic = async ({ request, response, user, render }) => {
     return;
   }
 
-  await topicsService.addTopic( current_user,  topicName );
+  await topicsService.addTopic( id,  topicName );
   response.redirect('/topics');
 };
 
@@ -55,7 +51,5 @@ const deleteTopic = async ({ params, response, user }) => {
   await topicsService.deleteTopic(id);
   response.redirect('/topics');
 };
-
-
 
 export { listTopics, listTopicsbyId, addTopic, deleteTopic }

@@ -175,7 +175,7 @@ const verifyAnswer = async ({ request, params, render }) => {
     const nextQuestionLink = url.searchParams.get("nextQuestionLink");
 
     const topic = await askingQuizService.getTopic(tId);
-    console.log("topic:", topic);
+
     const errors = [];
     let verification = false;
     

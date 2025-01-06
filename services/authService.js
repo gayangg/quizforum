@@ -18,7 +18,7 @@ const authenticateUser = async (email, password) => {
    
   if (!user) return null;
   const isValid = await bcrypt.compare(password, user.password);
-  console.log(isValid);
+ 
   return isValid ? user : null;
 };
 
@@ -27,7 +27,6 @@ const getUserByEmail = async (email) => {
         SELECT id, email, password, admin 
         FROM users WHERE email = ${email}
     `;
-  console.log("rows[0]", rows[0])
   return rows.length ? rows[0] : null;
 };
 

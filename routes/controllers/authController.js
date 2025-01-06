@@ -48,54 +48,54 @@ const showLoginForm = ({ render}) => {
 };
 
 
-const handleLogin = async ({request, response, render, state, user}) => {
-  const body = request.body({ type: "form" });
-  const params = await body.value;
-  const email = params.get("email");
-  const password = params.get("password");
-  const errors = [];
-
-
-    try {
-      //const user = await authService.authenticateUser(email, password);
-      //console.log("user:", user);
-       // if (user) {
-          await state.session.set("user", {id: 93 , email:"admin@admin.com", admin:true});
-          response.redirect("/topics");
-        
-    } catch (error) {
-        console.error("Error during login:", error);
-    }
-};
-
-
-
-// const handleLogin = async ({request, response, render, state}) => {
+// const handleLogin = async ({request, response, render, state, user}) => {
 //   const body = request.body({ type: "form" });
 //   const params = await body.value;
 //   const email = params.get("email");
 //   const password = params.get("password");
 //   const errors = [];
 
-//   if (!email || !password) {
-//     errors.push("Both email and password are required.");
-//     return render("login", { errors, email, password });
-//   }
 
 //     try {
-//       const user = await authService.authenticateUser(email, password);
-//       console.log("user:", user);
-//         if (user) {
-//           await state.session.set("user", user);
+//       //const user = await authService.authenticateUser(email, password);
+//       //console.log("user:", user);
+//        // if (user) {
+//           await state.session.set("user", {id: 93 , email:"admin@admin.com", admin:true});
 //           response.redirect("/topics");
-//         } else {
-//             errors.push("Invalid email or password.");
-//             render("login.eta", { errors, email, password});
-//         }
+        
 //     } catch (error) {
 //         console.error("Error during login:", error);
 //     }
 // };
+
+
+
+const handleLogin = async ({request, response, render, state}) => {
+  const body = request.body({ type: "form" });
+  const params = await body.value;
+  const email = params.get("email");
+  const password = params.get("password");
+  const errors = [];
+
+  if (!email || !password) {
+    errors.push("Both email and password are required.");
+    return render("login", { errors, email, password });
+  }
+
+    try {
+      const user = await authService.authenticateUser(email, password);
+      console.log("user:", user);
+        if (user) {
+          await state.session.set("user", user);
+          response.redirect("/topics");
+        } else {
+            errors.push("Invalid email or password.");
+            render("login.eta", { errors, email, password});
+        }
+    } catch (error) {
+        console.error("Error during login:", error);
+    }
+};
 
 const login = async ({ request, response, render }) => {
   const body = request.body({ type: "form" });
